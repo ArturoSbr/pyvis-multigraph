@@ -1,4 +1,11 @@
-"""This is the main docstring."""
+"""Functions that transform pandas dataframes to a graph compatible with pyvis.
+
+This file contains a set of convenience functions that transform a graph
+represented in pandas dataframes (nodes and edges tables) to a networkx graph
+whose attributes are compatible with pyvis. The resulting networkx graph can be
+visualized using pyvis and all of its edge and node attributes will be
+displayed accordingly.
+"""
 
 # TO-DO: Add assert column in columns
 
