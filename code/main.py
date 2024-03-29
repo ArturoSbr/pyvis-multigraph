@@ -71,7 +71,26 @@ def transform_nodes(
     color_map: Optional[str] = None,
     hover: Optional[str] = None
 ):
-    """Transform `nodes_df` to be compatible with pyvis."""
+    """Transform `nodes_df` to be compatible with pyvis.
+    
+    Parameters
+    ----------
+    nodes_df : pd.DataFrame
+        The dataframe representing the graph's edges and edge attributes.
+    id : str:
+        The name of the column that represents the nodes' IDs.
+    label : str
+        The name of the column that represents the labels to be displayed inside
+        or below each node.
+    color : str
+        The name of the column that determines the color of each node.
+    color_map : str
+        A dictionary that maps each unique value in column `color` to a color
+        hex code (e.g., #FF0000) or a color name (e.g., blue).
+    hover : str
+        The name of the column that contains the text that will be displayed
+        when the user hovers over a node.
+    """
     # Init column names to be returned
     cols = [id]
 
