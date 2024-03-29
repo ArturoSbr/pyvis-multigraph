@@ -59,5 +59,15 @@ def transform_edges(
 
 
 # Function to prepare nodes for pyvis
-def transforms_nodes():
+def transforms_nodes(
+    nodes_df,
+    id: str,
+    label: Optional[str] = None,
+    color: Optional[str] = None,
+    color_map: Optional[str] = None,
+    hover: Optional[str] = None
+):
+
+    """Docstring."""
+
     True
