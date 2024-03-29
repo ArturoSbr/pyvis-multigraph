@@ -2,7 +2,7 @@
 
 # Imports
 from typing import Optional
-from networkx import from_pandas_edgelist
+from networkx import from_pandas_edgelist, set_node_attributes
 from pyvis.network import Network as net
 
 
@@ -123,8 +123,12 @@ def transform_nodes(
         nodes_df = nodes_df.rename(columns={hover: 'title'})
         cols.append('title')
 
-    # Return transformed nodes
-    return nodes_df[cols]
+    # Return transformed nodes_df as dict
+    return (
+        nodes_df[cols]
+        .set_index(id)
+        .to_dict(orient='index')
+    )
 
 
 # Function to create an nx graph from an edges and nodes table
@@ -165,7 +169,9 @@ def nx_from_pandas(
         )
 
     # Get edge attributes
-    edge_attr = [col for col in [edges_color, edges_hover] if col is not None]
+    edge_attr = [
+        col for col in edges_df.columns if col not in ['src', 'dst']
+    ]
     edge_attr = edge_attr if len(edge_attr) > 0 else None
 
     # Declare graph from edges
@@ -175,6 +181,19 @@ def nx_from_pandas(
         target=edges_target,
         edge_attr=edge_attr
     )
+
+    # Set node attributes (if any)
+    if nodes_df is not None:
+        G.set_node_attr(
+            transform_nodes(
+                nodes_df=nodes_df,
+                id=nodes_id,
+                label=nodes_label,
+                color=nodes_color,
+                color_map=nodes_color_map,
+                hover=nodes_hover
+            )
+        )
 
     # Return nx Graph
     return G
