@@ -54,6 +54,8 @@ def transform_edges(
         edges_df = edges_df.rename(columns={hover: 'title'})
         cols.append('title')
     
+    # Return transformed edges
+    edges_df[cols]
 
 
 # Function to prepare nodes for pyvis
