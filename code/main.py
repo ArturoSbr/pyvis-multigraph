@@ -15,8 +15,8 @@ def transform_edges(
     hover: Optional[str] = None
 ):
 
-    """This function transforms `edges_df` to be compatible with the networkx
-    graph expected by a pyvis network.
+    """Transform `edges_df` to be compatible with the networkx graph expected by
+    a pyvis network.
 
     Parameters
     ----------
@@ -29,16 +29,31 @@ def transform_edges(
     hover : str
     """
 
-    # Check color and color_map args
+    # Start cols to select
+    cols = [source, target]
+
+    # Declare `color` column
     if color is not None and color_map is not None:
         assert isinstance(color, str) and isinstance(color_map, dict), (
-            '`color` must be a string representing the name of the column '
-            'in `edges_df` that determines the color of each node and '
-            '`color_map` must be a dictionary that maps each unique value in '
-            'column `color` to a hexadecimal'
+            '`color` must be a string and `color_map` must be a dictionary.'
         )
-    # Declare `color` column
-    edges_df['color'] = edges_df[color].map(color_map)
+        edges_df['color'] = edges_df[color].map(color_map)
+        cols.append('color')
+    elif color is not None and color_map is None:
+        raise TypeError(
+            '`color_map` must be a dictionary when `color` is passed.'
+        )
+    elif color is None and color_map is not None:
+        raise TypeError(
+            '`color` must be a string when `color_map` is passed.'
+        )
+
+    # Declare `title` column
+    if hover is not None:
+        assert isinstance(hover, str), '`hover` must be a string.'
+        edges_df = edges_df.rename(columns={hover: 'title'})
+        cols.append('title')
+    
 
 
 # Function to prepare nodes for pyvis
