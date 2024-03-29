@@ -21,10 +21,17 @@ def transform_edges(
     edges_df : pd.DataFrame
         The dataframe representing the graph's edges and edge attributes.
     source : str:
+        The name of the column that represents the source nodes.
     target : str
+        The name of the column that represents the target nodes.
     color : str
+        The name of the column that determines the color of each edge.
     color_map : str
+        A dictionary that maps each unique value in column `color` to a color
+        hex code (e.g., #FF0000) or a color name (e.g., blue).
     hover : str
+        The name of the column that contains the text that will be displayed
+        when the user hovers over an edge.
     """
     # Init column names to be returned
     cols = [source, target]
