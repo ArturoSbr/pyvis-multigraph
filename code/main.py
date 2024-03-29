@@ -2,6 +2,7 @@
 
 # Imports
 from typing import Optional
+from networkx import from_pandas_edgelist
 from pyvis.network import Network as net
 
 
@@ -59,7 +60,7 @@ def transform_edges(
         cols.append('title')
 
     # Return transformed edges
-    edges_df[cols]
+    return edges_df[cols]
 
 
 # Function to prepare nodes for pyvis
@@ -72,7 +73,7 @@ def transform_nodes(
     hover: Optional[str] = None
 ):
     """Transform `nodes_df` to be compatible with pyvis.
-    
+
     Parameters
     ----------
     nodes_df : pd.DataFrame
@@ -80,8 +81,8 @@ def transform_nodes(
     id : str:
         The name of the column that represents the nodes' IDs.
     label : str
-        The name of the column that represents the labels to be displayed inside
-        or below each node.
+        The name of the column that represents the labels to be displayed
+        inside or below each node.
     color : str
         The name of the column that determines the color of each node.
     color_map : str
@@ -124,3 +125,56 @@ def transform_nodes(
 
     # Return transformed nodes
     return nodes_df[cols]
+
+
+# Function to create an nx graph from an edges and nodes table
+def nx_from_pandas(
+    edges_df,
+    edges_source: str,
+    edges_target: str,
+    edges_color: Optional[str] = None,
+    edges_color_map: Optional[dict] = None,
+    edges_hover: Optional[str] = None,
+    nodes_df=None,
+    nodes_id: Optional[str] = None,
+    nodes_label: Optional[str] = None,
+    nodes_color: Optional[str] = None,
+    nodes_color_map: Optional[str] = None,
+    nodes_hover: Optional[str] = None
+):
+    """Convert pandas dataframes to a networkx graph."""
+    # Transform edges
+    edges_df = transform_edges(
+        edges_df=edges_df,
+        source=edges_source,
+        target=edges_target,
+        color=edges_color,
+        color_map=edges_color_map,
+        hover=edges_hover
+    )
+
+    # Transform nodes
+    if nodes_df is not None:
+        transform_nodes(
+            nodes_df=nodes_df,
+            id=nodes_id,
+            label=nodes_label,
+            color=nodes_color,
+            color_map=nodes_color_map,
+            hover=nodes_hover
+        )
+
+    # Get edge attributes
+    edge_attr = [col for col in [edges_color, edges_hover] if col is not None]
+    edge_attr = edge_attr if len(edge_attr) > 0 else None
+
+    # Declare graph from edges
+    G = from_pandas_edgelist(
+        df=edges_df,
+        source=edges_source,
+        target=edges_target,
+        edge_attr=edge_attr
+    )
+
+    # Return nx Graph
+    return G
