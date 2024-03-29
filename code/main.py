@@ -149,6 +149,12 @@ def nx_from_pandas(
 ):
     """Convert pandas dataframes to a networkx graph compatible with pyvis.
 
+    The attributes of the graph returned by this function are named according
+    to pyvis' naming conventions. Therefore, the user can pass the resulting
+    graph on to a `pyvis.network.Network` object through its `from_nx` method.
+    The final visualization will display the graph's node and edge attributes
+    set by the user.
+
     Parameters
     ----------
     edges_df : pd.DataFrame
@@ -183,7 +189,7 @@ def nx_from_pandas(
 
     Returns
     -------
-    A networkx graph with the edge and node attributes.
+    A networkx graph with edge and node attributes named according to pyvis.
     """
     # Transform edges
     edges_df = transform_edges(
