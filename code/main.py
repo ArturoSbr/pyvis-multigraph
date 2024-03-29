@@ -1,11 +1,10 @@
 """This is the main docstring."""
 
-### TO-DO: Add assert column in columns
+# TO-DO: Add assert column in columns
 
 # Imports
 from typing import Optional
 from networkx import from_pandas_edgelist, set_node_attributes
-from pyvis.network import Network as net
 
 
 # Function to prepare edges for pyvis
@@ -148,7 +147,44 @@ def nx_from_pandas(
     nodes_color_map: Optional[str] = None,
     nodes_hover: Optional[str] = None
 ):
-    """Convert pandas dataframes to a networkx graph."""
+    """Convert pandas dataframes to a networkx graph compatible with pyvis.
+
+    Parameters
+    ----------
+    edges_df : pd.DataFrame
+        The dataframe representing the graph's edges and edge attributes.
+    edges_source : str:
+        The name of the column that represents the source nodes.
+    edges_target : str
+        The name of the column that represents the target nodes.
+    edges_color : str
+        The name of the column that determines the color of each edge.
+    edges_color_map : str
+        A dictionary that maps each unique value in column `color` to a color
+        hex code (e.g., #FF0000) or a color name (e.g., blue).
+    edges_hover : str
+        The name of the column that contains the text that will be displayed
+        when the user hovers over an edge.
+    nodes_df : pd.DataFrame
+        The dataframe representing the graph's edges and edge attributes.
+    nodes_id : str:
+        The name of the column that represents the nodes' IDs.
+    nodes_label : str
+        The name of the column that represents the labels to be displayed
+        inside or below each node.
+    nodes_color : str
+        The name of the column that determines the color of each node.
+    nodes_color_map : str
+        A dictionary that maps each unique value in column `color` to a color
+        hex code (e.g., #FF0000) or a color name (e.g., blue).
+    nodes_hover : str
+        The name of the column that contains the text that will be displayed
+        when the user hovers over a node.
+
+    Returns
+    -------
+    A networkx graph with the edge and node attributes.
+    """
     # Transform edges
     edges_df = transform_edges(
         edges_df=edges_df,
