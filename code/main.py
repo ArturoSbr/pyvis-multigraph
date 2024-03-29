@@ -14,9 +14,7 @@ def transform_edges(
     color_map: Optional[dict] = None,
     hover: Optional[str] = None
 ):
-
-    """Transform `edges_df` to be compatible with the networkx graph expected by
-    a pyvis network.
+    """Transform `edges_df` to be compatible with a pyvis network.
 
     Parameters
     ----------
@@ -28,8 +26,7 @@ def transform_edges(
     color_map : str
     hover : str
     """
-
-    # Start cols to select
+    # Init column names to be returned
     cols = [source, target]
 
     # Declare `color` column
@@ -53,13 +50,13 @@ def transform_edges(
         assert isinstance(hover, str), '`hover` must be a string.'
         edges_df = edges_df.rename(columns={hover: 'title'})
         cols.append('title')
-    
+
     # Return transformed edges
     edges_df[cols]
 
 
 # Function to prepare nodes for pyvis
-def transforms_nodes(
+def transform_nodes(
     nodes_df,
     id: str,
     label: Optional[str] = None,
@@ -67,7 +64,37 @@ def transforms_nodes(
     color_map: Optional[str] = None,
     hover: Optional[str] = None
 ):
+    """Transform `nodes_df` to be compatible with pyvis."""
+    # Init column names to be returned
+    cols = [id]
 
-    """Docstring."""
+    # Add label column
+    if label is not None:
+        assert isinstance(label, str), '`label` must be a string.'
+        nodes_df['label'] = nodes_df[label].astype(str)
+        cols.append('label')
 
-    True
+    # Declare `color` column
+    if color is not None and color_map is not None:
+        assert isinstance(color, str) and isinstance(color_map, dict), (
+            '`color` must be a string and `color_map` must be a dictionary.'
+        )
+        nodes_df['color'] = nodes_df[color].map(color_map)
+        cols.append('color')
+    elif color is not None and color_map is None:
+        raise TypeError(
+            '`color_map` must be a dictionary when `color` is passed.'
+        )
+    elif color is None and color_map is not None:
+        raise TypeError(
+            '`color` must be a string when `color_map` is passed.'
+        )
+
+    # Add hover column
+    if hover is not None:
+        assert isinstance(hover, str), '`hover` must be a string.'
+        nodes_df = nodes_df.rename(columns={hover: 'title'})
+        cols.append('title')
+
+    # Return transformed nodes
+    return nodes_df[cols]
