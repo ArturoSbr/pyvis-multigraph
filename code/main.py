@@ -1,5 +1,7 @@
 """This is the main docstring."""
 
+### TO-DO: Add assert column in columns
+
 # Imports
 from typing import Optional
 from networkx import from_pandas_edgelist, set_node_attributes
@@ -184,8 +186,9 @@ def nx_from_pandas(
 
     # Set node attributes (if any)
     if nodes_df is not None:
-        G.set_node_attr(
-            transform_nodes(
+        set_node_attributes(
+            G=G,
+            values=transform_nodes(
                 nodes_df=nodes_df,
                 id=nodes_id,
                 label=nodes_label,
