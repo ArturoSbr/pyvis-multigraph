@@ -7,8 +7,6 @@ visualized using pyvis and all of its edge and node attributes will be
 displayed accordingly.
 """
 
-# TO-DO: Add assert column in columns
-
 # Imports
 from typing import Optional
 from networkx import from_pandas_edgelist, set_node_attributes
@@ -116,13 +114,16 @@ def transform_nodes(
     for col in cols_usr:
         assert col in nodes_df.columns, msg.format(col)
 
+    # Copy `nodes_df` to avoid overwrite
+    temp = nodes_df.copy(deep=True)
+
     # Init column names to be returned
     cols = [id]
 
     # Add label column
     if label is not None:
         assert isinstance(label, str), '`label` must be a string.'
-        nodes_df['label'] = nodes_df[label].astype(str)
+        temp['label'] = temp[label].astype(str)
         cols.append('label')
 
     # Declare `color` column
@@ -130,7 +131,7 @@ def transform_nodes(
         assert isinstance(color, str) and isinstance(color_map, dict), (
             '`color` must be a string and `color_map` must be a dictionary.'
         )
-        nodes_df['color'] = nodes_df[color].map(color_map)
+        temp['color'] = temp[color].map(color_map)
         cols.append('color')
     elif color is not None and color_map is None:
         raise TypeError(
@@ -144,12 +145,12 @@ def transform_nodes(
     # Add hover column
     if hover is not None:
         assert isinstance(hover, str), '`hover` must be a string.'
-        nodes_df = nodes_df.rename(columns={hover: 'title'})
+        temp = temp.rename(columns={hover: 'title'})
         cols.append('title')
 
     # Return transformed nodes_df as dict
     return (
-        nodes_df[cols]
+        temp[cols]
         .set_index(id)
         .to_dict(orient='index')
     )
