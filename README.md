@@ -2,8 +2,8 @@
 
 This repo makes it easy for you to use `pyvis` for multigraph visualization.
 
-<a href="https://drive.google.com/uc?export=view&id=1hydPWknXVIrUH47xZhJUme06zuB_LtWa">
-<img src="https://drive.google.com/uc?export=view&id=1hydPWknXVIrUH47xZhJUme06zuB_LtWa"
+<a href="https://drive.google.com/uc?export=view&id=1iCqELlXDyDxXvdW1cS2eC4-FeImK4S_Q">
+<img src="https://drive.google.com/uc?export=view&id=1iCqELlXDyDxXvdW1cS2eC4-FeImK4S_Q"
 style="width: 650px; max-width: 100%; height: auto"
 />
 
