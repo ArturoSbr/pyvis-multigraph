@@ -42,7 +42,7 @@ def transform_edges(
         The name of the column that contains the text that will be displayed
         when the user hovers over an edge.
     """
-    # Assert if columns required by user exist in
+    # Assert if columns required by user exist in edges_df
     cols_usr = [
         col for col in [source, target, color, hover] if col is not None
     ]
@@ -108,6 +108,14 @@ def transform_nodes(
         The name of the column that contains the text that will be displayed
         when the user hovers over a node.
     """
+    # Assert that columns passed by user exist in nodes
+    cols_usr = [
+        col for col in [id, label, color, hover] if col is not None
+    ]
+    msg = 'Column "{}" not found in `nodes_df`.'
+    for col in cols_usr:
+        assert col in nodes_df.columns, msg.format(col)
+
     # Init column names to be returned
     cols = [id]
 
