@@ -5,6 +5,10 @@ represented in pandas dataframes (nodes and edges tables) to a networkx graph
 whose attributes are compatible with pyvis. The resulting networkx graph can be
 visualized using pyvis and all of its edge and node attributes will be
 displayed accordingly.
+
+Project owned and maintained by [Arturo Soberon](
+    https://github.com/ArturoSbr
+).
 """
 
 # Imports
