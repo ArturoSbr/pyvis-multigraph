@@ -11,6 +11,11 @@ Project owned and maintained by [Arturo Soberon](
 ).
 """
 
+# TO-DO:
+# Add `multigraph` parameter that calls `create_using=nx.MultiGraph`
+# when `multigraph=True`. Raise warning: `Network(directed=True)`.
+
+
 # Imports
 from typing import Optional
 from networkx import from_pandas_edgelist, set_node_attributes
